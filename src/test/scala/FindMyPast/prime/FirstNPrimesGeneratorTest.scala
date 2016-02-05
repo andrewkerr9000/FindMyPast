@@ -33,7 +33,7 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
       forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
         val primes = FirstNPrimesGenerator(n)
 
-        for(i <- Seq.range(1, n - 1)) {
+        for(i <- Seq.range(1, n)) {
           primes.slice(0, i - 1) should not(contain(primes(i)))
         }
       }

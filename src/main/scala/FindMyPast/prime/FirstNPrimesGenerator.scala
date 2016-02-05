@@ -8,7 +8,7 @@ object FirstNPrimesGenerator {
   // i.e. FirstNPrimes(3) as well as of FirstNPrimes.apply(3)
   def apply(n: Int): Seq[Int] = {
     require(n >= 0)
-    Seq.fill(n)(2)
+    Seq.iterate(start = 2, len = n)(_ + 1) // (_ + 1) is shorthand for (a => a + 1)
   }
 
 }
