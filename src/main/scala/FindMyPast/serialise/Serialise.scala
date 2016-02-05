@@ -30,11 +30,14 @@ object Serialise {
 
     val buffer = new ListBuffer[String]()
     val separator = " | "
+    val terminator = "|"
 
     buffer.append(
-      whiteSpaceOfLength(maxDigits) +
+      terminator +
+        whiteSpaceOfLength(maxDigits) +
         separator +
-        table.header.map(serialiseNumber).mkString(separator)
+        table.header.map(serialiseNumber).mkString(separator) +
+        terminator
     )
 
     buffer.appendAll(
@@ -42,7 +45,7 @@ object Serialise {
         .map { case (rowHeader, row) => // shorthand for a pattern matching function
           (rowHeader +: row) // a +: b prepends b with a - it's actually equivalent to b.+:(a)
             .map(serialiseNumber)
-            .mkString(separator)
+            .mkString(terminator, separator, terminator)
         }
     )
 
