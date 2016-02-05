@@ -49,6 +49,17 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
       }
     }
 
+    "return only prime numbers" in {
+      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
+        val primes = FirstNPrimesGenerator(n)
+
+        for(primeIndex <- Seq.range(1, n)) { // ignore the first prime: we know it's 2
+          for(smallerNumbers <- Seq.range(2, primeIndex / 2 + 1)) {
+            (primes(primeIndex).toDouble / smallerNumbers.toDouble).isWhole() should be(false)
+          }
+        }
+      }
+    }
   }
 
 }
