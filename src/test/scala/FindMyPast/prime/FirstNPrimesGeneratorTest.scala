@@ -60,6 +60,10 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
         }
       }
     }
+
+    "for any consecutive pair of returned primes all integers between them, if any, should be non prime" ignore {
+      fail("if this were production code I would write this test")
+    }
   }
 
 }
