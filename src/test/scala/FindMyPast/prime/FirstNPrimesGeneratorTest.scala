@@ -38,6 +38,17 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
         }
       }
     }
+
+    "return monotonically increasing numbers" in {
+      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
+        val primes = FirstNPrimesGenerator(n)
+
+        for(i <- Seq.range(1, n)) {
+          primes(i - 1) should be <= primes(i)
+        }
+      }
+    }
+
   }
 
 }
