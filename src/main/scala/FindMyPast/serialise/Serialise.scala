@@ -8,13 +8,40 @@ object Serialise {
     require(header.size == table.size)
     if (table == Nil) return ""
 
-    val buffer = new ListBuffer[String]()
+    val maxDigits = {
+      // a for comprehension is syntactic sugar over flatMap, filter and one final map
+      val digitsOfNumbers = for {
+        row <- table
+        number <- row
+      } yield number.toString.length
 
-    buffer.append("  | " + header.mkString(" | "))
+      digitsOfNumbers.max
+    }
+
+    def whiteSpaceOfLength(n: Int) = {
+      Seq.fill(n)(" ").mkString
+    }
+
+    def serialiseNumber(n: Int): String = {
+      val str = n.toString
+      whiteSpaceOfLength(maxDigits - str.length) + str
+    }
+
+    val buffer = new ListBuffer[String]()
+    val separator = " | "
+
+    buffer
+      .append(
+        whiteSpaceOfLength(maxDigits) +
+        separator +
+        header.map(serialiseNumber).mkString(separator)
+      )
 
     buffer.appendAll(
       (header zip table).map { case (rowHeader, row) =>
-        (rowHeader +: row).mkString(" | ") // a +: b prepends b with a - it's actually a method on b
+        (rowHeader +: row) // a +: b prepends b with a - it's actually a method on b
+          .map(serialiseNumber)
+          .mkString(separator)
       }
     )
 
