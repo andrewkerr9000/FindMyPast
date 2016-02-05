@@ -1,11 +1,14 @@
 package FindMyPast.tabulate
 
+import FindMyPast.models.Table
+
 object Tabulate {
 
-  def apply(numbers: Seq[Int]): Seq[Seq[Int]] = {
+  def apply(numbers: Seq[Long]): Table = {
     val size = numbers.length
-    Seq.tabulate(size, size) { (i, j) =>
+    val values = Seq.tabulate(size, size) { (i, j) =>
       numbers(i) * numbers(j)
     }
+    Table(numbers, values)
   }
 }
