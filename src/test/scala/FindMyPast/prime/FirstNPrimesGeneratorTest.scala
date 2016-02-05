@@ -12,6 +12,10 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers {
     "throw if ask for a negative number of primes" in {
       intercept[IllegalArgumentException](FirstNPrimesGenerator(-1))
     }
+
+    "return 2 as the first prime" in {
+      FirstNPrimesGenerator(1) should be(Seq(2))
+    }
   }
 
 }
