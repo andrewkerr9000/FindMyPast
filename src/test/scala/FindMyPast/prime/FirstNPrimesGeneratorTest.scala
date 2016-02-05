@@ -16,21 +16,16 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
     }
 
     "throw if ask for a negative number of primes" in {
-      val nonPositiveInts = Gen.choose(Int.MinValue, 0)
-
+      val nonPositiveInts = Gen.choose(Int.MinValue, -1)
       forAll(nonPositiveInts) { n: Int =>
-        whenever(n < 0) {
-          intercept[IllegalArgumentException](FirstNPrimesGenerator(n))
-        }
+        intercept[IllegalArgumentException](FirstNPrimesGenerator(n))
       }
     }
 
     "return requested number of numbers" in {
-      val intsThatArentSoBigThatTheTestIsReallySlow = Gen.choose(1, 500)
+      val intsThatArentSoBigThatTheTestIsReallySlow = Gen.choose(0, 500)
       forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
-        whenever(n >= 0) {
-          FirstNPrimesGenerator(n).length should be(n)
-        }
+        FirstNPrimesGenerator(n).length should be(n)
       }
     }
   }
