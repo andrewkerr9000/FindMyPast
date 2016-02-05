@@ -1,10 +1,9 @@
 package FindMyPast.prime
 
+import FindMyPast.MySpec
 import org.scalacheck.Gen
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
-import org.scalatest.{Matchers, WordSpec}
 
-class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDrivenPropertyChecks {
+class FirstNPrimesGeneratorTest extends MySpec {
 
   "First N Primes Generator" should {
     "return Nil if asked for 0 primes" in {
