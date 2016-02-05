@@ -30,6 +30,10 @@ Scala features that this uses that may look odd are:
 * Implicit type conversions, enabling additional methods on types such as 'should' on String. Other languages may have
 other mechanisms for extending types.
 
+Property based testing using ScalaCheck is used for testing prime generation. This library started as a clone of
+ QuickCheck for Haskell. One of QuickCheck's writers, John Hughes, has also written an Erlang implementation. Property
+ based testing is useful here as it is not viable to write tests for all possible values of an Integer N.
+
 Methodology
 ===========
 
