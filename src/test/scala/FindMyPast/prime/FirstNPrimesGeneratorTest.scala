@@ -1,5 +1,6 @@
 package FindMyPast.prime
 
+import org.scalacheck.Gen
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import org.scalatest.{Matchers, WordSpec}
 
@@ -15,7 +16,9 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
     }
 
     "throw if ask for a negative number of primes" in {
-      forAll { n: Int =>
+      val nonPositiveInts = Gen.choose(Int.MinValue, 0)
+
+      forAll(nonPositiveInts) { n: Int =>
         whenever(n < 0) {
           intercept[IllegalArgumentException](FirstNPrimesGenerator(n))
         }
@@ -23,7 +26,8 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
     }
 
     "return requested number of numbers" in {
-      forAll { n: Int =>
+      val intsThatArentSoBigThatTheTestIsReallySlow = Gen.choose(1, 500)
+      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
         whenever(n >= 0) {
           FirstNPrimesGenerator(n).length should be(n)
         }
