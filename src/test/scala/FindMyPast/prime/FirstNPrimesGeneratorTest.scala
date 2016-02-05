@@ -10,6 +10,10 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
       FirstNPrimesGenerator(0) should be(Nil)
     }
 
+    "return 2 as the first prime" in {
+      FirstNPrimesGenerator(1) should be(Seq(2))
+    }
+
     "throw if ask for a negative number of primes" in {
       forAll { n: Int =>
         whenever(n < 0) {
@@ -18,8 +22,12 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
       }
     }
 
-    "return 2 as the first prime" in {
-      FirstNPrimesGenerator(1) should be(Seq(2))
+    "return requested number of numbers" in {
+      forAll { n: Int =>
+        whenever(n >= 0) {
+          FirstNPrimesGenerator(n).length should be(n)
+        }
+      }
     }
   }
 
