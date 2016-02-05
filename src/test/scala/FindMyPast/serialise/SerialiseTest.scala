@@ -14,5 +14,12 @@ class SerialiseTest extends MySpec {
         """#  | 1
            #1 | 1""".stripMargin('#'))
     }
+
+    "serialise a table with varying numbers of digits" in {
+      Serialise(Seq(10, 100), Seq(Seq(100, 1000), Seq(1000, 10000))) should be(
+        """#    |   10 |   100
+           # 10 |  100 |  1000
+           #100 | 1000 | 10000""".stripMargin('#'))
+    }
   }
 }
