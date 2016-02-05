@@ -30,9 +30,16 @@ Scala features that this uses that may look odd are:
 * Implicit type conversions, enabling additional methods on types such as 'should' on String. Other languages may have
 other mechanisms for extending types.
 
-Property based testing using ScalaCheck is used for testing prime generation. This library started as a clone of
+Property based testing using ScalaCheck is used for testing prime generation. ScalaCheck started as a clone of
  QuickCheck for Haskell. One of QuickCheck's writers, John Hughes, has also written an Erlang implementation. Property
  based testing is useful here as it is not viable to write tests for all possible values of an Integer N.
+
+The Parfait pattern is used for dependency injection. This uses implicit parameters: if an implicit variable is in
+scope then the Scala compiler will pass it as a parameter. Implicit parameters can be abused to make code very hard to
+ understand.
+ 
+DI allows me to mock the Printer so I can write more complete end-to-end tests in Scala. I'm using Mockito, probably the
+most common JVM mocking framework.
 
 Methodology
 ===========
