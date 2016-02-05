@@ -1,17 +1,18 @@
 package FindMyPast.serialise
 
+import FindMyPast.models.Table
+
 import scala.collection.mutable.ListBuffer
 
 object Serialise {
 
-  def apply(header: Seq[Int], table: Seq[Seq[Int]]): String = {
-    require(header.size == table.size)
-    if (table == Nil) return ""
+  def apply(table: Table): String = {
+    if (table.header == Nil) return ""
 
     val maxDigits = {
       // a for comprehension is syntactic sugar over flatMap, filter and one final map
       val digitsOfNumbers = for {
-        row <- table
+        row <- table.values
         number <- row
       } yield number.toString.length
 
@@ -22,7 +23,7 @@ object Serialise {
       Seq.fill(n)(" ").mkString
     }
 
-    def serialiseNumber(n: Int): String = {
+    def serialiseNumber(n: Long): String = {
       val str = n.toString
       whiteSpaceOfLength(maxDigits - str.length) + str
     }
@@ -30,19 +31,19 @@ object Serialise {
     val buffer = new ListBuffer[String]()
     val separator = " | "
 
-    buffer
-      .append(
-        whiteSpaceOfLength(maxDigits) +
+    buffer.append(
+      whiteSpaceOfLength(maxDigits) +
         separator +
-        header.map(serialiseNumber).mkString(separator)
-      )
+        table.header.map(serialiseNumber).mkString(separator)
+    )
 
     buffer.appendAll(
-      (header zip table).map { case (rowHeader, row) =>
-        (rowHeader +: row) // a +: b prepends b with a - it's actually a method on b
-          .map(serialiseNumber)
-          .mkString(separator)
-      }
+      (table.header zip table.values)
+        .map { case (rowHeader, row) => // shorthand for a pattern matching function
+          (rowHeader +: row) // a +: b prepends b with a - it's actually equivalent to b.+:(a)
+            .map(serialiseNumber)
+            .mkString(separator)
+        }
     )
 
     buffer.mkString("\n")
