@@ -54,8 +54,8 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
         val primes = FirstNPrimesGenerator(n)
 
         for(primeIndex <- Seq.range(1, n)) { // ignore the first prime: we know it's 2
-          for(smallerNumbers <- Seq.range(2, primeIndex / 2 + 1)) {
-            (primes(primeIndex).toDouble / smallerNumbers.toDouble).isWhole() should be(false)
+          for(smallerNumber <- Seq.range(2, primeIndex / 2 + 1)) {
+            assert(!(primes(primeIndex).toDouble / smallerNumber.toDouble).isWhole(), s"${primes(primeIndex)} is divisible by $smallerNumber")
           }
         }
       }
