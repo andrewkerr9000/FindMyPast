@@ -1,16 +1,16 @@
 package FindMyPast.app
 
-import FindMyPast.{Printer, MySpec}
+import FindMyPast.{Config, Printer, MySpec}
 import org.mockito.Mockito
 import org.scalatest.mock.MockitoSugar
 
-class AppTest extends MySpec with MockitoSugar {
+class MainAppTest extends MySpec with MockitoSugar {
 
   implicit object TestConfig extends Config {
     override val printer: Printer = mock[Printer]("mockPrinter")
   }
 
-  val app = new App
+  val app = new MainApp
 
   "App" should {
     "output a table of primes of the required size" in {
