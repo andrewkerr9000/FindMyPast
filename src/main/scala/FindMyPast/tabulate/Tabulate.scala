@@ -2,5 +2,5 @@ package FindMyPast.tabulate
 
 object Tabulate {
 
-  def apply(numbers: Seq[Int]): Seq[Seq[Int]] = ???
+  def apply(numbers: Seq[Int]): Seq[Seq[Int]] = Nil
 }
