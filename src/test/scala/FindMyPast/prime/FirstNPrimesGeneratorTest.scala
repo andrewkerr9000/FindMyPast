@@ -22,10 +22,20 @@ class FirstNPrimesGeneratorTest extends WordSpec with Matchers with GeneratorDri
       }
     }
 
+    val intsThatArentSoBigThatTheTestIsReallySlow = Gen.choose(0, 500)
     "return requested number of numbers" in {
-      val intsThatArentSoBigThatTheTestIsReallySlow = Gen.choose(0, 500)
       forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
         FirstNPrimesGenerator(n).length should be(n)
+      }
+    }
+
+    "return distinct numbers" in {
+      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
+        val primes = FirstNPrimesGenerator(n)
+
+        for(i <- Seq.range(1, n - 1)) {
+          primes.slice(0, i - 1) should not(contain(primes(i)))
+        }
       }
     }
   }
