@@ -31,38 +31,34 @@ class FirstNPrimesGeneratorTest extends MySpec {
     // It is implausible that any of the failing tests would pass when getting the first 1000 primes
     // but fail with 999
 
-    "return distinct numbers" in {
-      val n = 1000
-      val primes = FirstNPrimesGenerator(n)
+    val numberOfPrimes = 1000
 
-      for (i <- Seq.range(1, n)) {
+    "return distinct numbers" in {
+      val primes = FirstNPrimesGenerator(numberOfPrimes)
+
+      for (i <- Seq.range(1, numberOfPrimes)) {
         primes.slice(0, i - 1) should not(contain(primes(i)))
       }
     }
 
     "return monotonically increasing numbers" in {
-      val n = 1000
-      val primes = FirstNPrimesGenerator(n)
+      val primes = FirstNPrimesGenerator(numberOfPrimes)
 
-      for (i <- Seq.range(1, n)) {
+      for (i <- Seq.range(1, numberOfPrimes)) {
         primes(i - 1) should be <= primes(i)
       }
     }
 
-    "return only prime numbers" in {
-      val n = 1000
-      val primes = FirstNPrimesGenerator(n)
-
-      for (primeIndex <- Seq.range(1, n)) {
-        // ignore the first prime: we know it's 2
-        for (smallerNumber <- Seq.range(2, primeIndex / 2 + 1)) {
-          assert(!(primes(primeIndex).toDouble / smallerNumber.toDouble).isWhole(), s"${primes(primeIndex)} is divisible by $smallerNumber")
-        }
+    def assertPrime(number: Long) = {
+      Seq.range(2, number / 2 + 1).foreach{ divisor =>
+        assert(!(number.toDouble / divisor.toDouble).isWhole(), s"number $number is not prime, divisible by $divisor")
       }
     }
 
-    "for any consecutive pair of returned primes all integers between them, if any, should be non prime" ignore {
-      fail("if this were production code I would write this test")
+    "return only prime numbers" in {
+      val primes = FirstNPrimesGenerator(numberOfPrimes)
+
+      primes.foreach(assertPrime)
     }
   }
 
