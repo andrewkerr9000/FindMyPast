@@ -47,11 +47,8 @@ Methodology
 I am committing when writing a failing test to demonstrate my application of TDD. Normally I wouldn't commit if a test
 is failing.
 
-Performance
+Algorithm
 ===========
 
-Uses a Sieve of Eratosthenes to generate prime numbers. As the standard algorithm generates primes less than or equal
-to a specified number N I modified this to be capable of generating primes without an upper bound: this requires the
-use of lazy lists (Streams) to store known non-prime values.
-
-There are faster sieves, but they are more complex.
+Uses a Sieve of Eratosthenes to generate prime numbers. Rather than 'mark off' multiples of primes, checks if each
+candidate number is a multiple of a prime, i.e. the ratio is a whole number.
