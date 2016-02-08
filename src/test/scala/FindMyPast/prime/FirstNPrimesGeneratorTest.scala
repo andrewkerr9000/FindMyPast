@@ -28,34 +28,35 @@ class FirstNPrimesGeneratorTest extends MySpec {
       }
     }
 
-    "return distinct numbers" in {
-      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
-        val primes = FirstNPrimesGenerator(n)
+    // It is implausible that any of the failing tests would pass when getting the first 1000 primes
+    // but fail with 999
 
-        for(i <- Seq.range(1, n)) {
-          primes.slice(0, i - 1) should not(contain(primes(i)))
-        }
+    "return distinct numbers" in {
+      val n = 1000
+      val primes = FirstNPrimesGenerator(n)
+
+      for (i <- Seq.range(1, n)) {
+        primes.slice(0, i - 1) should not(contain(primes(i)))
       }
     }
 
     "return monotonically increasing numbers" in {
-      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
-        val primes = FirstNPrimesGenerator(n)
+      val n = 1000
+      val primes = FirstNPrimesGenerator(n)
 
-        for(i <- Seq.range(1, n)) {
-          primes(i - 1) should be <= primes(i)
-        }
+      for (i <- Seq.range(1, n)) {
+        primes(i - 1) should be <= primes(i)
       }
     }
 
     "return only prime numbers" in {
-      forAll(intsThatArentSoBigThatTheTestIsReallySlow) { n: Int =>
-        val primes = FirstNPrimesGenerator(n)
+      val n = 1000
+      val primes = FirstNPrimesGenerator(n)
 
-        for(primeIndex <- Seq.range(1, n)) { // ignore the first prime: we know it's 2
-          for(smallerNumber <- Seq.range(2, primeIndex / 2 + 1)) {
-            assert(!(primes(primeIndex).toDouble / smallerNumber.toDouble).isWhole(), s"${primes(primeIndex)} is divisible by $smallerNumber")
-          }
+      for (primeIndex <- Seq.range(1, n)) {
+        // ignore the first prime: we know it's 2
+        for (smallerNumber <- Seq.range(2, primeIndex / 2 + 1)) {
+          assert(!(primes(primeIndex).toDouble / smallerNumber.toDouble).isWhole(), s"${primes(primeIndex)} is divisible by $smallerNumber")
         }
       }
     }
