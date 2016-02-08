@@ -49,16 +49,38 @@ class FirstNPrimesGeneratorTest extends MySpec {
       }
     }
 
-    def assertPrime(number: Long) = {
-      Seq.range(2, number / 2 + 1).foreach{ divisor =>
-        assert(!(number.toDouble / divisor.toDouble).isWhole(), s"number $number is not prime, divisible by $divisor")
-      }
-    }
-
     "return only prime numbers" in {
+      def assertPrime(number: Long) = {
+        Seq.range(2, number / 2 + 1).foreach { divisor =>
+          assert(!(number.toDouble / divisor.toDouble).isWhole(), s"number $number is not prime, divisible by $divisor")
+        }
+      }
+
       val primes = FirstNPrimesGenerator(numberOfPrimes)
 
       primes.foreach(assertPrime)
+    }
+
+
+    "not skip over any primes" in {
+      def assertNonPrime(number: Long) = {
+        assert(
+          Seq.range(2, number / 2 + 1).exists { divisor =>
+            (number.toDouble / divisor.toDouble).isWhole()
+          },
+          s"$number is prime"
+        )
+      }
+
+      val primes = FirstNPrimesGenerator(numberOfPrimes)
+      val smallerConsecutiveIndexGen = Gen.choose(0, numberOfPrimes - 2)
+
+      forAll(smallerConsecutiveIndexGen) { idx =>
+        val firstPrime = primes(idx)
+        val secondPrime = primes(idx + 1)
+
+        Seq.range(firstPrime + 1, secondPrime).foreach(assertNonPrime)
+      }
     }
   }
 
