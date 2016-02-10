@@ -19,9 +19,7 @@ object FirstNPrimesGenerator {
     // storing the length so it doesn't need to be recalculated every time - which is O(n) on most Scala collections
     @tailrec // not required for tail call optimisation, but makes the compiler moan if it is not possible
     def constructPrimesFrom(candidate: Long, length: Int, knownPrimes: Seq[Long]): Seq[Long] = {
-      def notAMultipleOf(candidate: Long, prime: Long): Boolean = {
-        !(candidate.toDouble / prime.toDouble).isWhole()
-      }
+      def notAMultipleOf(candidate: Long, prime: Long): Boolean = candidate % prime != 0
 
       if(length == n) {
         knownPrimes

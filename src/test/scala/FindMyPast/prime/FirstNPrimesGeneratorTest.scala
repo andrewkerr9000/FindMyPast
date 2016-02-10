@@ -52,7 +52,7 @@ class FirstNPrimesGeneratorTest extends MySpec {
     "return only prime numbers" in {
       def assertPrime(number: Long) = {
         Seq.range(2, number / 2 + 1).foreach { divisor =>
-          assert(!(number.toDouble / divisor.toDouble).isWhole(), s"number $number is not prime, divisible by $divisor")
+          assert(number % divisor != 0, s"number $number is not prime, divisible by $divisor")
         }
       }
 
@@ -66,7 +66,7 @@ class FirstNPrimesGeneratorTest extends MySpec {
       def assertNonPrime(number: Long) = {
         assert(
           Seq.range(2, number / 2 + 1).exists { divisor =>
-            (number.toDouble / divisor.toDouble).isWhole()
+            number % divisor == 0
           },
           s"$number is prime"
         )
